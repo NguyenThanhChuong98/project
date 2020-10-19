@@ -9,7 +9,7 @@
             <select name='categories' id='categories' class='form-control'>
                 <option value="">Select a category</option>
                 {% for category in categories %}
-            <option value="brand.id">{{ categories.categoryname }}</option>
+            <option value="{{category.categoryname}}">{{ category.categoryname }}</option>
                 {% endfor %}
              </select>
 

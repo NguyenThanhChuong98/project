@@ -109,18 +109,18 @@ def admin():
 def add_product():
     categories = Categories.query.all()
     form = ProductForm()
-    if form.validate_on_submit():
-        if request.method == 'POST':
-            photos.save(request.file.get('image_product'))
-        product = Products(productname=form.productname.data,
+    # if form.validate_on_submit():
+    if request.method == 'POST':
+        product = Products(categoryname=request.form.get('categoryname'),
+                           productname=form.productname.data,
                            quantity=form.quantity.data,
                            price=form.price.data,
-                           image_product=form.image_product.data,
                            product_description=form.product_description.data,
-                           category_id=form.category_id.data)
+                           image_product=photos.save(request.files.get('image_product'))
+                           )
         db.session.add(product)
         db.session.commit()
-        flash('Your product has been created!', 'success')
+        print('Your product has been created!', 'success')
         return redirect(url_for('add_product'))
     return render_template("staff/admin_product.html", title="staff", form=form, categories=categories)
 
@@ -147,4 +147,4 @@ def list_product():
 @app.route("/list_product/<int:product_id>")
 def product(product_id):
     product = Products.query.get_or_404(product_id)
-    return render_template('single_product.html',title='Single Product',product=product)
+    return render_template('single_product.html', title='Single Product', product=product)

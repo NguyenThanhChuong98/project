@@ -68,6 +68,7 @@ class ProductForm(FlaskForm):
     price = IntegerField('Price',validators=[DataRequired()])
     product_description = TextAreaField('Product Description',validators=[DataRequired(),Length(min=2, max=500)])
     image_product = FileField('Product Picture',validators=[FileAllowed(['jpg','png']),FileRequired()])
+    categoryname = StringField('Category Name',validators=[DataRequired(),Length(min=2,max=20)])
     submit = SubmitField('Create')
 
 class CategoryForm(FlaskForm):

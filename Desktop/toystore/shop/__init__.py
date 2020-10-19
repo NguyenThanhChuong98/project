@@ -12,7 +12,7 @@ app.config['SECRET_KEY'] = '017dc53df170bfea63a7e9fcb0f9c367'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://chuong:password@localhost/app'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.url_map.strict_slashes = False
-app.config['UPLOADED_PHOTOS_DEST'] =os.path.join(basedir, 'static/staff/images')
+app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'static/staff/images')
 photos = UploadSet('photos',IMAGES)
 configure_uploads(app,photos)
 
