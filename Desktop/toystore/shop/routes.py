@@ -109,14 +109,12 @@ def admin():
 def add_product():
     categories = Categories.query.all()
     form = ProductForm()
-    # if form.validate_on_submit():
     if request.method == 'POST':
-        product = Products(categoryname=request.form.get('categoryname'),
-                           productname=form.productname.data,
+        product = Products(product_name=form.product_name.data,
                            quantity=form.quantity.data,
                            price=form.price.data,
                            product_description=form.product_description.data,
-                           image_product=photos.save(request.files.get('image_product'))
+                           image_product= photos.save(request.files.get('image_product'))
                            )
         db.session.add(product)
         db.session.commit()
@@ -128,7 +126,7 @@ def add_product():
 @app.route("/admin/add_category", strict_slashes=False, methods=['GET', 'POST'])
 def add_category():
     form = CategoryForm()
-    category = Categories(categoryname=form.categoryname.data,)
+    category = Categories(category_name=form.category_name.data,)
     if form.validate_on_submit():
         db.session.add(category)
         db.session.commit()

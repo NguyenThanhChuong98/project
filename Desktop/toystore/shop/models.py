@@ -36,7 +36,7 @@ class Roles(db.Model):
 
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    productname = db.Column(db.String(40), nullable=False)
+    product_name = db.Column(db.String(40), nullable=False)
     quantity = db.Column(db.Integer)
     price = db.Column(db.Integer, nullable=False)
     product_description = db.Column(db.String(500), nullable=False)
@@ -53,7 +53,7 @@ class Products(db.Model):
 
 class Categories(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    categoryname = db.Column(db.String(40))
+    category_name = db.Column(db.String(40))
     category_product = db.relationship('Products', backref='category_product',
                                        lazy='select')
     category_warehouse = db.relationship('Warehouse', backref='category_warehouse',
@@ -93,7 +93,7 @@ class Warehouse(db.Model):
 
 class Shipper(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
+    shipper_name = db.Column(db.String(100))
     date_of_birth = db.Column(db.DateTime, nullable=False)
     address = db.Column(db.String(100))
     ship_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)

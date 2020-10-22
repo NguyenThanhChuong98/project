@@ -13,11 +13,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://chuong:password@localho
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.url_map.strict_slashes = False
 app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'static/staff/images')
+
+
 photos = UploadSet('photos',IMAGES)
 configure_uploads(app,photos)
+patch_request_class(app)
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'

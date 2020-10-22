@@ -63,14 +63,13 @@ class UpdateAccountForm(FlaskForm):
                 raise ValidationError('That email is already taken.Please choose another one')
 
 class ProductForm(FlaskForm):
-    productname = StringField('Product Name',validators=[DataRequired(),Length(min=2, max=20)])
+    product_name = StringField('Product Name',validators=[DataRequired(),Length(min=2, max=20)])
     quantity = IntegerField('Quantity',validators=[DataRequired()])
     price = IntegerField('Price',validators=[DataRequired()])
     product_description = TextAreaField('Product Description',validators=[DataRequired(),Length(min=2, max=500)])
-    image_product = FileField('Product Picture',validators=[FileAllowed(['jpg','png']),FileRequired()])
-    categoryname = StringField('Category Name',validators=[DataRequired(),Length(min=2,max=20)])
+    image_product = FileField('Image Product', validators=[FileRequired(), FileAllowed(['jpg','png','gif','jpeg'])])
     submit = SubmitField('Create')
 
 class CategoryForm(FlaskForm):
-    categoryname = StringField('Category Name',validators=[DataRequired(),Length(min=2,max=20)])
+    category_name = StringField('Category Name',validators=[DataRequired(),Length(min=2,max=20)])
     submit = SubmitField('Create')
