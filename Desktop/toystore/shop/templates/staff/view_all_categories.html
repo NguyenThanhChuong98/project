@@ -1,0 +1,23 @@
+{% extends "staff/layout.html"%}
+{% block content %}
+
+
+<table style="width:100%">
+	<tr>
+		<th>Category Name</th>
+		<th>Created Date</th>
+		<th>Updated Date</th>
+	</tr>
+	{% for category in categories %}
+	<tr>
+		<td>{{ category.category_name }}</td>
+		<td>{{ category.create_date }}</td>
+		<td>{{ category.update_date }}</td>
+		<td><button><a href="{{ url_for('update_category',category_id=category.id) }}">Edit</a></button></td>
+		<td><button><a href="{{ url_for('delete_category',category_id=category.id) }}">Delete</a></button></td>
+	</tr>
+	{% endfor %}
+</table>
+
+
+{% endblock content %}

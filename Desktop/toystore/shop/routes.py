@@ -100,9 +100,21 @@ def account():
                            image_file=image_file, form=form)
 
 
+
+
+
+
+
+
 @app.route("/admin", strict_slashes=False)
 def admin():
     return render_template("staff/layout.html", title="staff")
+
+
+@app.route("/admin/view_all_products", strict_slashes=False, methods=['GET'])
+def view_all_products():
+    products = Products.query.all()
+    return render_template("staff/view_all_products.html", products=products)
 
 
 @app.route("/admin/add_product", strict_slashes=False, methods=['GET', 'POST'])
@@ -114,13 +126,55 @@ def add_product():
                            quantity=form.quantity.data,
                            price=form.price.data,
                            product_description=form.product_description.data,
-                           image_product= photos.save(request.files.get('image_product'))
+                           image_product=photos.save(request.files.get('image_product'))
                            )
         db.session.add(product)
         db.session.commit()
-        print('Your product has been created!', 'success')
+        flash(f'Your product has been created!', 'success')
         return redirect(url_for('add_product'))
-    return render_template("staff/admin_product.html", title="staff", form=form, categories=categories)
+    return render_template("staff/add_product.html", title="staff", form=form, categories=categories)
+
+
+@app.route("/admin/delete_product/<int:product_id>", strict_slashes=False, methods=['GET', 'POST'])
+def delete_product(product_id):
+    product = Products.query.get_or_404(product_id)
+    db.session.delete(product)
+    db.session.commit()
+    flash(f"Product deleted","success")
+    return redirect(url_for('view_all_products'),product = product.id)
+
+
+@app.route("/admin/update_product/<int:product_id>", strict_slashes=False, methods=['GET', 'POST'])
+def update_product(product_id):
+    categories = Categories.query.all()
+    form = ProductForm()
+    update_product = Products.query.get_or_404(product_id)
+    if form.validate_on_submit():
+        update_product.product_name = form.product_name.data
+        update_product.quantity = form.quantity.data
+        update_product.price = form.price.data
+        update_product.product_description = form.product_description.data
+        update_product.image_product = photos.save(request.files.get('image_product'))
+        db.session.commit()
+        flash(f"Product has been updated", "success")
+        return redirect(url_for('view_all_products', product_id=update_product.id))
+    elif request.method == "GET":
+        form.product_name.data = update_product.product_name
+        form.quantity.data = update_product.quantity
+        form.price.data = update_product.price
+        form.product_description.data = update_product.product_description
+        form.image_product.data = update_product.image_product
+    return render_template("staff/update_product.html", title="update product", form=form, categories=categories)
+
+
+
+
+
+
+@app.route("/admin/view_all_categories", strict_slashes=False, methods=['GET'])
+def view_all_categories():
+    categories = Categories.query.all()
+    return render_template("staff/view_all_categories.html", categories=categories)
 
 
 @app.route("/admin/add_category", strict_slashes=False, methods=['GET', 'POST'])
@@ -133,7 +187,31 @@ def add_category():
         flash('Your category has been created!', 'success')
         return redirect(url_for('add_category'))
 
-    return render_template("staff/admin_category.html", title="staff", form=form)
+    return render_template("staff/add_category.html", title="staff", form=form)
+
+@app.route("/admin/delete_category/<int:category_id>", strict_slashes=False, methods=['GET', 'POST'])
+def delete_category(category_id):
+    category = Categories.query.get_or_404(category_id)
+    db.session.delete(category)
+    db.session.commit()
+    flash(f"Category deleted","success")
+    return redirect(url_for('view_all_products'),category = category.id)
+
+
+
+@app.route("/admin/update_category/<int:category_id>", strict_slashes=False, methods=['GET', 'POST'])
+def update_category(category_id):
+    form = CategoryForm()
+    update_category = Categories.query.get_or_404(category_id)
+    if form.validate_on_submit():
+        update_category.category_name = form.category_name.data
+        db.session.commit()
+        flash(f"Category has been updated", "success")
+        return redirect(url_for('view_all_categories', category_id=update_category.id))
+    elif request.method == "GET":
+        form.category_name.data = update_category.category_name
+
+    return render_template("staff/update_category.html", title="Update category", update_category=update_category, form=form)
 
 
 @app.route("/list_product")
@@ -143,6 +221,6 @@ def list_product():
 
 
 @app.route("/list_product/<int:product_id>")
-def product(product_id):
+def product_info(product_id):
     product = Products.query.get_or_404(product_id)
-    return render_template('single_product.html', title='Single Product', product=product)
+    return render_template('customer/single_product.html', title='Single Product', product=product)

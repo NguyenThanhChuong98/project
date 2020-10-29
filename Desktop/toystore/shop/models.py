@@ -54,6 +54,9 @@ class Products(db.Model):
 class Categories(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(40))
+    create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    delete_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    update_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     category_product = db.relationship('Products', backref='category_product',
                                        lazy='select')
     category_warehouse = db.relationship('Warehouse', backref='category_warehouse',

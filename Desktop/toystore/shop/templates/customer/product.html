@@ -10,7 +10,7 @@
                   <img src="{{url_for('static', filename='staff/images/' + product.image_product)}}" class="card-img-top" alt="">
                   <div class="men-cart-pro">
                      <div class="inner-men-cart-pro">
-                        <a href="{{ url_for('list_product') }}" class="link-product-add-cart">Quick View</a>
+                        <a href="{{ url_for('product_info',product_id=product.id) }}" class="link-product-add-cart">Quick View</a>
                      </div>
                   </div>
                </div>
