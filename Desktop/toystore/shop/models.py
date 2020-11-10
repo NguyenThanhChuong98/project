@@ -39,7 +39,13 @@ class Products(db.Model):
     product_name = db.Column(db.String(40), nullable=False)
     quantity = db.Column(db.Integer)
     price = db.Column(db.Integer, nullable=False)
-    product_description = db.Column(db.String(500), nullable=False)
+    age_recommendation = db.Column(db.String(50),nullable=False)
+    dimensions = db.Column(db.String(50),nullable=False)
+    country_of_design = db.Column(db.String(50),nullable=False)
+    country_of_manufacture = db.Column(db.String(50),nullable=False)
+    primary_material = db.Column(db.String(50),nullable=False)
+    assembly_required = db.Column(db.String(50),nullable=False)
+    gift_wrap = db.Column(db.String(50),nullable=False)
     image_product = db.Column(db.String(500), nullable=False)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     delete_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
@@ -53,7 +59,7 @@ class Products(db.Model):
 
 class Categories(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    category_name = db.Column(db.String(40))
+    category_name = db.Column(db.String(40),nullable=False)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     delete_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     update_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)

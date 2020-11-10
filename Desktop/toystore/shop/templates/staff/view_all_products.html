@@ -2,27 +2,41 @@
 {% block content %}
 
 
-<table style="width:100%">
+<table class="table table-bordered col-lg-12" >
 	<tr>
-		<th>Product Name</th>
-		<th>Quantity</th>
-		<th>Price</th>
-		<th>Product Description</th>
-		<th>Image Product</th>
-		<th>Created Date</th>
-		<th>Category ID</th>
+		<th scope="col" style="color:black">Product Name</th>
+		<th scope="col" style="color:black">Quantity</th>
+		<th scope="col" style="color:black">Price</th>
+		<th scope="col" style="color:black">Age Recommendation</th>
+		<th scope="col" style="color:black">Dimensions</th>
+		<th scope="col" style="color:black">Country Of Design</th>
+		<th scope="col" style="color:black">Country of Manufacture</th>
+		<th scope="col" style="color:black">Primary Material</th>
+		<th scope="col" style="color:black">Assembly Required</th>
+		<th scope="col" style="color:black">Gift Wrap</th>
+		<th scope="col" style="color:black">Image Product</th>
+		<th scope="col" style="color:black">Created Date</th>
+		<th scope="col" style="color:black">Update Date</th>
+		<th scope="col" style="color:black">Action</th>
+		<th scope="col" style="color:black">Action</th>
 	</tr>
 	{% for product in products %}
 	<tr>
-		<td>{{ product.product_name }}</td>
-		<td>{{ product.quantity }}</td>
-		<td>{{ product.price }}</td>
-		<td>{{ product.product_description }}</td>
-		<td>{{ product.image_product }}</td>
-		<td>{{ product.create_date }}</td>
-		<td>{{ product.update_date }}</td>
-		<td><button><a href="{{ url_for('update_product',product_id=product.id) }}">Edit</a></button></td>
-		<td><button><a href="{{ url_for('delete_product',product_id=product.id) }}">Delete</a></button></td>
+		<td style="color:black">{{ product.product_name }}</td>
+		<td style="color:black">{{ product.quantity }}</td>
+		<td style="color:black">{{ product.price }}</td>
+		<td style="color:black">{{ product.age_recommendation }}</td>
+		<td style="color:black">{{ product.dimensions }}</td>
+		<td style="color:black">{{ product.country_of_design }}</td>
+		<td style="color:black">{{ product.country_of_manufacture }}</td>
+		<td style="color:black">{{ product.primary_material }}</td>
+		<td style="color:black">{{ product.assembly_required }}</td>
+		<td style="color:black">{{ product.gift_wrap }}</td>
+		<td style="color:black">{{ product.image_product }}</td>
+		<td style="color:black">{{ product.create_date }}</td>
+		<td style="color:black">{{ product.update_date }}</td>
+		<td><button><a href="{{ url_for('update_product_by_id',product_id=product.id) }}">Edit</a></button></td>
+		<td><button><a href="{{ url_for('delete_product_by_id',product_id=product.id) }}">Delete</a></button></td>
 	</tr>
 	{% endfor %}
 </table>

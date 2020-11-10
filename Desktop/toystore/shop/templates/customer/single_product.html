@@ -1,13 +1,14 @@
 {% extends "customer/layout.html"%}
 {% block content %}
-<section class="banner-bottom py-lg-5 py-3">
+<section class="banner-bottom py-lg-4 py-3">
    <div class="container">
       <div class="inner-sec-shop pt-lg-4 pt-3">
          <div class="row">
-            <div><img src="{{url_for('static', filename='staff/images/' + product.image_product)}}" class="card-img-top" alt="" width="500" height="800"></div>
-            <div class="col-lg-8 single-right-left simpleCart_shelfItem" style="float:left">
+           
+            <div class="col-lg-6 single-right-left simpleCart_shelfItem" style="float:left">
+                <div><img src="{{url_for('static', filename='staff/images/' + product.image_product)}}" class="card-img-top" alt="" width="500" height="500"></div>
                <h3>{{ product.product_name }}</h3>
-               <p><span class="item_price">{{ product.price }}$</span>
+               <p><span class="item_price">Price: {{ product.price }}$</span>
                </p>
                <div class="occasion-cart">
                   <div class="toys single-item singlepage">
@@ -28,13 +29,19 @@
             <div class="responsive_tabs">
                <div id="horizontalTab">
                   <ul class="resp-tabs-list">
-                     <li>Description</li>
+                     <li>Description:</li>
                   </ul>
                   <div class="resp-tabs-container">
                      <!--/tab_one-->
                      <div class="tab1">
                         <div class="single_page">
-                           <p>{{ product.product_description }}</p>
+                           <p>Age Recommendation: {{ product.age_recommendation }}</p>
+                           <p>Dimensions: {{ product.dimensions }}</p>
+                           <p>Country Of Design: {{ product.country_of_design }}</p>
+                           <p>Country Of Manufacture: {{ product.country_of_manufacture }}</p>
+                           <p>Primary Material: {{ product.primary_material }}</p>
+                           <p>Assembly Required: {{ product.assembly_required }}</p>
+                           <p>Gift Wrap: {{ product.gift_wrap }}</p>
                         </div>
                      </div>
                   </div>

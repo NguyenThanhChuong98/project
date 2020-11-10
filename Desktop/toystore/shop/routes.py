@@ -1,12 +1,13 @@
 import os
 import secrets
+import datetime
 from PIL import Image
 from flask import render_template, url_for, redirect, flash, request
-from shop import app, db, photos
+from shop import app, db, photos, bcrypt
 from shop.models import Users, Roles, Products, Categories, Orders, Order_detail, Warehouse, Shipper, Cart
 from shop.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProductForm, CategoryForm
 from flask_login import login_user, current_user, logout_user, login_required
-
+ 
 
 @app.route("/home")
 def home():
@@ -25,8 +26,6 @@ def contact():
 
 @app.route("/login", strict_slashes=False, methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = Users.query.filter_by(email=form.email.data).first()
@@ -41,8 +40,6 @@ def login():
 
 @app.route("/register", strict_slashes=False, methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticate:
-        return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -100,12 +97,6 @@ def account():
                            image_file=image_file, form=form)
 
 
-
-
-
-
-
-
 @app.route("/admin", strict_slashes=False)
 def admin():
     return render_template("staff/layout.html", title="staff")
@@ -125,7 +116,13 @@ def add_product():
         product = Products(product_name=form.product_name.data,
                            quantity=form.quantity.data,
                            price=form.price.data,
-                           product_description=form.product_description.data,
+                           age_recommendation = form.age_recommendation.data,
+                           dimensions = form.dimensions.data,
+                           country_of_design = form.country_of_design.data,
+                           country_of_manufacture = form.country_of_design.data,
+                           primary_material = form.primary_material.data,
+                           assembly_required = form.assembly_required.data,
+                           gift_wrap = form.gift_wrap.data,
                            image_product=photos.save(request.files.get('image_product'))
                            )
         db.session.add(product)
@@ -136,16 +133,16 @@ def add_product():
 
 
 @app.route("/admin/delete_product/<int:product_id>", strict_slashes=False, methods=['GET', 'POST'])
-def delete_product(product_id):
+def delete_product_by_id(product_id):
     product = Products.query.get_or_404(product_id)
     db.session.delete(product)
     db.session.commit()
-    flash(f"Product deleted","success")
-    return redirect(url_for('view_all_products'),product = product.id)
+    flash(f"Product deleted", "success")
+    return redirect(url_for('view_all_products'))
 
 
 @app.route("/admin/update_product/<int:product_id>", strict_slashes=False, methods=['GET', 'POST'])
-def update_product(product_id):
+def update_product_by_id(product_id):
     categories = Categories.query.all()
     form = ProductForm()
     update_product = Products.query.get_or_404(product_id)
@@ -153,8 +150,15 @@ def update_product(product_id):
         update_product.product_name = form.product_name.data
         update_product.quantity = form.quantity.data
         update_product.price = form.price.data
-        update_product.product_description = form.product_description.data
+        update_product.age_recommendation = form.age_recommendation.data
+        update_product.dimensions = form.dimensions.data
+        update_product.country_of_design = form.country_of_design.data
+        update_product.country_of_manufacture.data = form.country_of_manufacture.data
+        update_product.primary_material.data = form.primary_material.data
+        update_product.assembly_required.data = form.assembly_required.data
+        update_product.gift_wrap.data = form.gift_wrap.data
         update_product.image_product = photos.save(request.files.get('image_product'))
+        update_category.update_date = datetime.datetime.utcnow()
         db.session.commit()
         flash(f"Product has been updated", "success")
         return redirect(url_for('view_all_products', product_id=update_product.id))
@@ -162,13 +166,15 @@ def update_product(product_id):
         form.product_name.data = update_product.product_name
         form.quantity.data = update_product.quantity
         form.price.data = update_product.price
-        form.product_description.data = update_product.product_description
+        form.age_recommendation.data = update_product.age_recommendation
+        form.dimensions.data = update_product.dimensions
+        form.country_of_design.data = update_product.country_of_design
+        form.country_of_manufacture.data = update_product.country_of_manufacture
+        form.primary_material.data = update_product.primary_material
+        form.assembly_required.data = update_product.assembly_required
+        form.gift_wrap.data =  update_product.gift_wrap
         form.image_product.data = update_product.image_product
     return render_template("staff/update_product.html", title="update product", form=form, categories=categories)
-
-
-
-
 
 
 @app.route("/admin/view_all_categories", strict_slashes=False, methods=['GET'])
@@ -189,22 +195,23 @@ def add_category():
 
     return render_template("staff/add_category.html", title="staff", form=form)
 
+
 @app.route("/admin/delete_category/<int:category_id>", strict_slashes=False, methods=['GET', 'POST'])
-def delete_category(category_id):
+def delete_category_by_id(category_id):
     category = Categories.query.get_or_404(category_id)
     db.session.delete(category)
     db.session.commit()
-    flash(f"Category deleted","success")
-    return redirect(url_for('view_all_products'),category = category.id)
-
+    flash(f"Category deleted", "success")
+    return redirect(url_for('view_all_categories'))
 
 
 @app.route("/admin/update_category/<int:category_id>", strict_slashes=False, methods=['GET', 'POST'])
-def update_category(category_id):
+def update_category_by_id(category_id):
     form = CategoryForm()
     update_category = Categories.query.get_or_404(category_id)
     if form.validate_on_submit():
         update_category.category_name = form.category_name.data
+        update_category.update_date = datetime.datetime.utcnow()
         db.session.commit()
         flash(f"Category has been updated", "success")
         return redirect(url_for('view_all_categories', category_id=update_category.id))
