@@ -153,10 +153,10 @@ def update_product_by_id(product_id):
         update_product.age_recommendation = form.age_recommendation.data
         update_product.dimensions = form.dimensions.data
         update_product.country_of_design = form.country_of_design.data
-        update_product.country_of_manufacture.data = form.country_of_manufacture.data
-        update_product.primary_material.data = form.primary_material.data
-        update_product.assembly_required.data = form.assembly_required.data
-        update_product.gift_wrap.data = form.gift_wrap.data
+        update_product.country_of_manufacture = form.country_of_manufacture.data
+        update_product.primary_material = form.primary_material.data
+        update_product.assembly_required = form.assembly_required.data
+        update_product.gift_wrap = form.gift_wrap.data
         update_product.image_product = photos.save(request.files.get('image_product'))
         update_category.update_date = datetime.datetime.utcnow()
         db.session.commit()
@@ -173,7 +173,6 @@ def update_product_by_id(product_id):
         form.primary_material.data = update_product.primary_material
         form.assembly_required.data = update_product.assembly_required
         form.gift_wrap.data =  update_product.gift_wrap
-        form.image_product.data = update_product.image_product
     return render_template("staff/update_product.html", title="update product", form=form, categories=categories)
 
 

@@ -1,58 +1,61 @@
 {% extends "staff/layout.html" %}
 {% block content %}
-    <div class="content-section">
+<div class="content-section">
     <form method="POST" action="" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <fieldset class="form-group" >
-            <legend class='border-bottom mb-4'>Account Info</legend>
             <label for='Categories'>Add a category</label>
             <select name='categories' id='categories' class='form-control'>
                 <option value="">Select a category</option>
                 {% for category in categories %}
-            <option value="{{category.category_name}}">{{ category.category_name }}</option>
+                <option value="{{category.category_name}}">{{ category.category_name }}</option>
                 {% endfor %}
-             </select>
+            </select>
 
             <div class="form-group">
                 {{ form.product_name.label(class="form-control-label") }}
                 {% if form.product_name.errors %}
-                    {{ form.product_name(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.product_name.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
+                {{ form.product_name(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.product_name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
                 {% else %}
-                    {{ form.product_name(class="form-control form-control-lg") }}
+                {{ form.product_name(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
             <div class="form-group">
                 {{ form.quantity.label(class="form-control-label") }}
                 {% if form.quantity.errors %}
-                    {{ form.quantity(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.quantity.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
+                {{ form.quantity(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.quantity.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
                 {% else %}
-                    {{ form.quantity(class="form-control form-control-lg") }}
+                {{ form.quantity(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
+
             <div class="form-group">
                 {{ form.price.label(class="form-control-label") }}
                 {% if form.price.errors %}
-                    {{ form.price(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.price.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
+                {{ form.price(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.price.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
                 {% else %}
-                    {{ form.price(class="form-control form-control-lg") }}
+                {{ form.price(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
-             <div class="form-group">
+
+            <div class="form-group">
                 {{ form.age_recommendation.label(class="form-control-label") }}
                 {% if form.age_recommendation.errors %}
                 {{ form.age_recommendation(class="form-control form-control-lg is-invalid") }}
@@ -65,6 +68,7 @@
                 {{ form.age_recommendation(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
             <div class="form-group">
                 {{ form.dimensions.label(class="form-control-label") }}
                 {% if form.dimensions.errors %}
@@ -78,6 +82,7 @@
                 {{ form.dimensions(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
             <div class="form-group">
                 {{ form.country_of_design.label(class="form-control-label") }}
                 {% if form.country_of_design.errors %}
@@ -91,6 +96,7 @@
                 {{ form.country_of_design(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
             <div class="form-group">
                 {{ form.country_of_manufacture.label(class="form-control-label") }}
                 {% if form.country_of_manufacture.errors %}
@@ -104,6 +110,7 @@
                 {{ form.country_of_manufacture(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
             <div class="form-group">
                 {{ form.primary_material.label(class="form-control-label") }}
                 {% if form.primary_material.errors %}
@@ -117,6 +124,7 @@
                 {{ form.primary_material(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
             <div class="form-group">
                 {{ form.assembly_required.label(class="form-control-label") }}
                 {% if form.assembly_required.errors %}
@@ -130,7 +138,8 @@
                 {{ form.assembly_required(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
-                 <div class="form-group">
+
+            <div class="form-group">
                 {{ form.gift_wrap.label(class="form-control-label") }}
                 {% if form.gift_wrap.errors %}
                 {{ form.gift_wrap(class="form-control form-control-lg is-invalid") }}
@@ -143,14 +152,15 @@
                 {{ form.gift_wrap(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
             <div class="form-group">
-                    {{ form.image_product.label() }}
-                    {{ form.image_product(class="form-control-file") }}
-                    {% if form.image_product.errors %}
-                        {% for error in form.image_product.errors %}
-                            <span class="text-danger">{{ error }}</span></br>
-                        {% endfor %}
-                    {% endif %}
+                {{ form.image_product.label() }}
+                {{ form.image_product(class="form-control-file") }}
+                {% if form.image_product.errors %}
+                {% for error in form.image_product.errors %}
+                <span class="text-danger">{{ error }}</span></br>
+                {% endfor %}
+                {% endif %}
             </div>
         </fieldset>
         <div class="form-group">
