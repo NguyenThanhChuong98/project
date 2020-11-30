@@ -4,6 +4,7 @@
     <form method="POST" action="" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <fieldset class="form-group" >
+            <div class="col-xs-2">
             <label for='Categories'>Add a category</label>
             <select name='categories' id='categories' class='form-control'>
                 <option value="">Select a category</option>
@@ -162,6 +163,7 @@
                 {% endfor %}
                 {% endif %}
             </div>
+        </div>
         </fieldset>
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}

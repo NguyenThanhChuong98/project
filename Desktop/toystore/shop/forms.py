@@ -66,7 +66,7 @@ class ProductForm(FlaskForm):
     product_name = StringField('Product Name',validators=[DataRequired(),Length(min=2, max=20)])
     quantity = IntegerField('Quantity',validators=[DataRequired()])
     price = IntegerField('Price',validators=[DataRequired()])
-    age_recommendation = StringField('Age Recommendation',validators=[DataRequired(),Length(min=2, max=500)])
+    age_recommendation = StringField('Age Recommendation',validators=[DataRequired()])
     dimensions = StringField('Dimensions',validators=[DataRequired(),Length(min=2, max=500)])
     country_of_design = StringField('Country Of Design',validators=[DataRequired(),Length(min=2, max=500)])
     country_of_manufacture = StringField('Country Of Manufacture',validators=[DataRequired(),Length(min=2, max=500)])

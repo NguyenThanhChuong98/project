@@ -158,7 +158,8 @@ def update_product_by_id(product_id):
         update_product.assembly_required = form.assembly_required.data
         update_product.gift_wrap = form.gift_wrap.data
         update_product.image_product = photos.save(request.files.get('image_product'))
-        update_category.update_date = datetime.datetime.utcnow()
+        update_product.update_date = datetime.datetime.utcnow()
+        db.session.add(update_product)
         db.session.commit()
         flash(f"Product has been updated", "success")
         return redirect(url_for('view_all_products', product_id=update_product.id))

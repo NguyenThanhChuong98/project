@@ -15,8 +15,8 @@
 		<th scope="col" style="color:black">Assembly Required</th>
 		<th scope="col" style="color:black">Gift Wrap</th>
 		<th scope="col" style="color:black">Image Product</th>
-		<th scope="col" style="color:black">Created Date</th>
-		<th scope="col" style="color:black">Update Date</th>
+<!-- 		<th scope="col" style="color:black">Created Date</th>
+		<th scope="col" style="color:black">Update Date</th> -->
 		<th scope="col" style="color:black">Action</th>
 		<th scope="col" style="color:black">Action</th>
 	</tr>
@@ -33,8 +33,8 @@
 		<td style="color:black">{{ product.assembly_required }}</td>
 		<td style="color:black">{{ product.gift_wrap }}</td>
 		<td style="color:black">{{ product.image_product }}</td>
-		<td style="color:black">{{ product.create_date }}</td>
-		<td style="color:black">{{ product.update_date }}</td>
+<!-- 		<td style="color:black">{{ product.create_date }}</td>
+		<td style="color:black">{{ product.update_date }}</td> -->
 		<td><button><a href="{{ url_for('update_product_by_id',product_id=product.id) }}">Edit</a></button></td>
 		<td><button><a href="{{ url_for('delete_product_by_id',product_id=product.id) }}">Delete</a></button></td>
 	</tr>
