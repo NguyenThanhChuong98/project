@@ -1,0 +1,29 @@
+{% extends "staff/layout.html"%}
+{% block content %}
+
+
+<table class="table table-bordered col-lg-12" >
+	<tr>
+		<th scope="col" style="color:black">User Name</th>
+		<th scope="col" style="color:black">Email</th>
+		<th scope="col" style="color:black">Address</th>
+		<th scope="col" style="color:black">Date Of Birth</th>
+		<th scope="col" style="color:black">Image</th>
+		<th scope="col" style="color:black">Create Date</th>
+		<th scope="col" style="color:black">Update Date</th>
+	</tr>
+	{% for user in users %}
+	<tr>
+		<td style="color:black">{{ user.username }}</td>
+		<td style="color:black">{{ user.email }}</td>
+		<td style="color:black">{{ user.address }}</td>
+		<td style="color:black">{{ user.date_of_birth }}</td>
+		<td style="color:black">{{ user.image_file }}</td>
+		<td style="color:black">{{ user.create_date }}</td>
+		<td style="color:black">{{ user.update_date }}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+
+{% endblock content %}

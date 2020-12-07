@@ -1,0 +1,29 @@
+{% extends "staff/layout.html"%}
+{% block content %}
+
+
+<table class="table table-bordered col-lg-12" >
+	<tr>
+		<th scope="col" style="color:black">Shipper Name</th>
+		<th scope="col" style="color:black">Date Of Birth</th>
+		<th scope="col" style="color:black">Address</th>
+		<th scope="col" style="color:black">Create Date</th>
+		<th scope="col" style="color:black">Update Date</th>
+		<th scope="col" style="color:black">Action</th>
+		<th scope="col" style="color:black">Action</th>
+	</tr>
+	{% for shipper in shippers %}
+	<tr>
+		<td style="color:black">{{ shipper.shipper_name }}</td>
+		<td style="color:black">{{ shipper.date_of_birth }}</td>
+		<td style="color:black">{{ shipper.address }}</td>
+		<td style="color:black">{{ shipper.create_date }}</td>
+		<td style="color:black">{{ shipper.update_date }}</td>
+		<td><button><a href="{{ url_for('update_shipper_by_id',shipper_id = shipper.id) }}">Edit</a></button></td>
+		<td><button><a href="{{ url_for('delete_shipper_by_id',shipper_id = shipper.id) }}">Delete</a></button></td>
+	</tr>
+	{% endfor %}
+</table>
+
+
+{% endblock content %}

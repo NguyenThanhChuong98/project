@@ -105,11 +105,11 @@ table, th, td {
                         <span>Account</span>
                     </a>
                     <ul class="sub">
-						<li><a href="typography.html">View Staff Account</a></li>
-						<li><a href="">Add Staff Account</a></li>
+						<li><a href="{{ url_for('view_all_users') }}">View Staff Account</a></li>
+						<li><a href="{{ url_for('add_user') }}">Add Staff Account</a></li>
                     </ul>
                 </li>
-                  <li class="sub-menu">
+                <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
                         <span>Category</span>
@@ -138,11 +138,15 @@ table, th, td {
                         <li><a href="typography.html">View Order</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="login.html">
-                        <i class="fa fa-user"></i>
-                        <span>Login Page</span>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Shipper</span>
                     </a>
+                    <ul class="sub">
+                        <li><a href="{{ url_for('add_shipper') }}">Add Shipper</a></li>
+                        <li><a href="{{ url_for('view_all_shippers') }}">View Shipper</a></li>
+                    </ul>
                 </li>
             </ul>            
         </div>

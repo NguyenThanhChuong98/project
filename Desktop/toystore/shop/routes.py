@@ -5,11 +5,11 @@ from PIL import Image
 from flask import render_template, url_for, redirect, flash, request
 from shop import app, db, photos, bcrypt
 from shop.models import Users, Roles, Products, Categories, Orders, Order_detail, Warehouse, Shipper, Cart
-from shop.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProductForm, CategoryForm
+from shop.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProductForm, CategoryForm, ShipperForm
 from flask_login import login_user, current_user, logout_user, login_required
  
 
-@app.route("/home")
+@app.route("/")
 def home():
     return render_template("customer/home.html")
 
@@ -26,6 +26,8 @@ def contact():
 
 @app.route("/login", strict_slashes=False, methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = Users.query.filter_by(email=form.email.data).first()
@@ -40,6 +42,8 @@ def login():
 
 @app.route("/register", strict_slashes=False, methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -71,7 +75,6 @@ def save_picture_user(form_picture):
     i = Image.open(form_picture)
     i.thumbnail(ouput_size)
     i.save(picture_path)
-
     return picture_fn
 
 
@@ -91,6 +94,8 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
+        form.address.data = current_user.address
+        form.date_of_birth.data = current_user.date_of_birth
 
     image_file = url_for('static', filename='customer/images/avatar/' + current_user.image_file)
     return render_template("customer/account.html", title="Account",
@@ -100,6 +105,29 @@ def account():
 @app.route("/admin", strict_slashes=False)
 def admin():
     return render_template("staff/layout.html", title="staff")
+
+
+@app.route("/admin/add_user", strict_slashes=False, methods=['GET', 'POST'])
+def add_user():
+    users = Users.query.all()
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = Users(username=form.username.data,
+                     email = form.email.data,
+                     address = form.address.data,
+                     date_of_birth = form.date_of_birth.data,
+                     password = form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Your product has been created!', 'success')
+        return redirect(url_for('add_user'))
+    return render_template("staff/add_user.html", title="staff", form = form, users = users)
+
+
+@app.route("/admin/view_all_users", strict_slashes=False, methods=['GET'])
+def view_all_users():
+    users = Users.query.all()
+    return render_template("staff/view_all_users.html", users = users)
 
 
 @app.route("/admin/view_all_products", strict_slashes=False, methods=['GET'])
@@ -113,7 +141,8 @@ def add_product():
     categories = Categories.query.all()
     form = ProductForm()
     if request.method == 'POST':
-        product = Products(product_name=form.product_name.data,
+        product = Products(category_name = form.category_name.data,
+                           product_name=form.product_name.data,
                            quantity=form.quantity.data,
                            price=form.price.data,
                            age_recommendation = form.age_recommendation.data,
@@ -212,6 +241,7 @@ def update_category_by_id(category_id):
     if form.validate_on_submit():
         update_category.category_name = form.category_name.data
         update_category.update_date = datetime.datetime.utcnow()
+        db.session.add(update_category)
         db.session.commit()
         flash(f"Category has been updated", "success")
         return redirect(url_for('view_all_categories', category_id=update_category.id))
@@ -219,6 +249,58 @@ def update_category_by_id(category_id):
         form.category_name.data = update_category.category_name
 
     return render_template("staff/update_category.html", title="Update category", update_category=update_category, form=form)
+
+
+@app.route("/admin/add_shipper", strict_slashes=False, methods=['GET', 'POST'])
+def add_shipper():
+    form = ShipperForm()
+    shipper = Shipper(shipper_name = form.shipper_name.data,
+                      date_of_birth = form.date_of_birth.data,
+                      address = form.address.data)
+    if form.validate_on_submit():
+        db.session.add(shipper)
+        db.session.commit()
+        flash('Your shipper has been created!', 'success')
+        return redirect(url_for('add_shipper'))
+    else:
+        flash('Something wrong occured, please input again')
+
+    return render_template("staff/add_shipper.html", title="staff", form=form)
+
+
+@app.route("/admin/delete_shipper/<int:shipper_id>", strict_slashes=False, methods=['GET', 'POST'])
+def delete_shipper_by_id(shipper_id):
+    shipper = Shipper.query.get_or_404(shipper_id)
+    db.session.delete(shipper)
+    db.session.commit()
+    flash(f"Shipper deleted", "success")
+    return redirect(url_for('view_all_shippers'))
+
+
+@app.route("/admin/update_shipper/<int:shipper_id>", strict_slashes=False, methods=['GET', 'POST'])
+def update_shipper_by_id(shipper_id):
+    form = ShipperForm()
+    update_shipper = Shipper.query.get_or_404(shipper_id)
+    if form.validate_on_submit():
+        update_shipper.shipper_name = form.shipper_name.data
+        update_shipper.date_of_birth = form.date_of_birth.data
+        update_shipper.address = form.address.data
+        update_shipper.update_date = datetime.datetime.utcnow()
+        db.session.add(update_shipper)
+        db.session.commit()
+        flash(f"Shipper has been updated", "success")
+        return redirect(url_for('view_all_shippers',shipper_id=update_shipper.id))
+    elif request.method == "GET":
+        form.shipper_name.data = update_shipper.shipper_name
+        form.date_of_birth.data =  update_shipper.date_of_birth
+        form.address.data =  update_shipper.address
+    return render_template("staff/update_shipper.html", title="Update Shipper", update_shipper=update_shipper, form=form)
+
+
+@app.route("/admin/view_all_shippers", strict_slashes=False, methods=['GET'])
+def view_all_shippers():
+    shippers = Shipper.query.all()
+    return render_template("staff/view_all_shippers.html", shippers=shippers)
 
 
 @app.route("/list_product")
@@ -231,3 +313,4 @@ def list_product():
 def product_info(product_id):
     product = Products.query.get_or_404(product_id)
     return render_template('customer/single_product.html', title='Single Product', product=product)
+

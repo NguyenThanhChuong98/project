@@ -1,19 +1,18 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField,IntegerField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField,IntegerField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from shop.models import Users
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username',
+    username = StringField('User Name',
                            validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     address = StringField('Address',
                           validators=[DataRequired(), Length(min=10, max=50)])
-    date_of_birth = StringField('Date Of Birth',
-                                validators=[DataRequired()])
+    date_of_birth = DateField('Date Of Birth', format='%Y-%m-%d')
     password = PasswordField('Password',
                              validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password',
@@ -45,8 +44,7 @@ class UpdateAccountForm(FlaskForm):
                         validators=[DataRequired(), Email()])
     address = StringField('Address',
                           validators=[DataRequired(), Length(min=10, max=50)])
-    date_of_birth = StringField('Date Of Birth',
-                                validators=[DataRequired()])
+    date_of_birth = DateField('Date Of Birth', format='%Y-%m-%d')
     picture = FileField('Update Profile Picture',validators=[FileAllowed(['jpg','png'])])
     submit = SubmitField('Update')
 
@@ -78,4 +76,10 @@ class ProductForm(FlaskForm):
 
 class CategoryForm(FlaskForm):
     category_name = StringField('Category Name',validators=[DataRequired(),Length(min=2,max=20)])
+    submit = SubmitField('Create')
+
+class ShipperForm(FlaskForm):
+    shipper_name = StringField('Shipper Name', validators=[DataRequired(),Length(min=2, max=20)])
+    date_of_birth = DateField('Date Of Birth', format='%Y-%m-%d')
+    address = StringField('Address', validators=[DataRequired()])
     submit = SubmitField('Create')
